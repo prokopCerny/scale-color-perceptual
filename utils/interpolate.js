@@ -24,21 +24,22 @@ function interpolate (a, b) {
 }
 
 function interpolateArray (scaleArr) {
-  var N = scaleArr.length - 2 // -1 for spacings, -1 for number of interpolate fns
+  var N = scaleArr.length - 1 // -1 for spacings, -1 for number of interpolate fns
   var intervalWidth = 1 / N
   var intervals = []
 
-  for (var i = 0; i <= N; i++) {
+  for (var i = 0; i < N; i++) {
     intervals[i] = interpolate(scaleArr[i], scaleArr[i + 1])
   }
 
   return function (t) {
     if (t < 0 || t > 1) throw new Error('Outside the allowed range of [0, 1]')
+    
+    var fractionalLocation = t * N
+    var i = Math.max(Math.ceil(fractionalLocation - 1), 0)
+    var intervalOffset = fractionalLocation - i
 
-    var i = Math.floor(t * N)
-    var intervalOffset = i * intervalWidth
-
-    return intervals[i](t / intervalWidth - intervalOffset / intervalWidth)
+    return intervals[i](intervalOffset)
   }
 }
 
