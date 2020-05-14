@@ -24,7 +24,7 @@ function interpolate (a, b) {
 }
 
 function interpolateArray (scaleArr) {
-  var N = scaleArr.length - 1 // -1 for spacings, -1 for number of interpolate fns
+  var N = scaleArr.length - 1 // -1 for number of interpolate fns
   var intervalWidth = 1 / N
   var intervals = []
 
